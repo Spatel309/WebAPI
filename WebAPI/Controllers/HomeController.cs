@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace WebAPI.Controllers
+﻿namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,64 +25,38 @@ namespace WebAPI.Controllers
                 string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "newfolder", file.FileName);
                 if (file.ContentType.Contains("application/zip-compressed") || file.ContentType.Contains("application/x-zip-compressed") || file.ContentType.Contains("application/x-msdownload"))
                 {
-                    Stream file1 = file.OpenReadStream();
-                    using (Stream stream = new FileStream(path, FileMode.Create))
+                    public IActionResult Index()
                     {
-                        file1.CopyTo(stream);
                     }
-                }
-                try
-                {
-                    // Get the base directory of the application
-                    string baseDirectory = Directory.GetCurrentDirectory();
-
-                    // Specify the folder name where you want to upload the file
-                    string uploadFolderName = "Uploads";
-
-                    // Combine the base directory with the folder name
-                    string uploadFolder = Path.Combine(baseDirectory, uploadFolderName);
-
-                    // Combine the folder path with the filename to create the full path
-                    string filePath = Path.Combine(uploadFolder, file.FileName);
-
-                    // Create the folder if it doesn't exist
-                    if (!Directory.Exists(uploadFolder))
+                    try
                     {
-                        Directory.CreateDirectory(uploadFolder);
-                    }
-                    Stream data12 = file.OpenReadStream();
+                        // Get the base directory of the application
+                        string baseDirectory = Directory.GetCurrentDirectory();
 
-                    System.IO.Compression.ZipFile.ExtractToDirectory(path, uploadFolder);
+                        // Specify the folder name where you want to upload the file
+                        string uploadFolderName = "Uploads";
 
+                        // Combine the base directory with the folder name
+                        string uploadFolder = Path.Combine(baseDirectory, uploadFolderName);
 
-                    // Open the ZIP file using ZipInputStream
-                    //using (ZipInputStream zipInputStream = new ZipInputStream(data12))
-                    //{
-                    //    ZipEntry entry;
-                    //    while ((entry = zipInputStream.GetNextEntry()) != null)
-                    //    {
-                    //        // Combine the extract path with the entry's name
-                    //        string entryPath = Path.Combine(uploadFolder, entry.Name);
+                        {
 
-                    //        // Create the directory if it doesn't exist
-                    //        Directory.CreateDirectory(Path.GetDirectoryName(entryPath));
-
-                    //        // Extract the entry's content
-                    //        using (FileStream fs = System.IO.File.Create(entryPath))
-                    //        {
-                    //            zipInputStream.CopyTo(fs);
-                    //        }
-                    //    }
-                    //}
-                }
+                            //        // Extract the entry's content
+                            //        using (FileStream fs = System.IO.File.Create(entryPath))
+                            //        {
+                            //            zipInputStream.CopyTo(fs);
+                            //        }
+                            //    }
+                            //}
+                        }
                 catch (Exception ex)
-                {
-                    // Handle exceptions, log errors, etc.
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
+                    {
+                        // Handle exceptions, log errors, etc.
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
                 }
+                return new JsonResult(0);
             }
-            return new JsonResult(0);
-        }
 
+        }
     }
-}
