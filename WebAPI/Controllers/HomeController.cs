@@ -8,5 +8,11 @@ namespace WebAPI.Controllers
         {
             return View();
         }
+
+        public string Error()
+        {
+            return "";
+
+        }
     }
 }
